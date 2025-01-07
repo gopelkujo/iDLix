@@ -49,6 +49,6 @@ tqdm==4.64.1
 urllib3==1.26.11
 vtt_to_srt3==0.2.0.3
 wcwidth==0.2.5
-Werkzeug==2.2.3
+Werkzeug==3.0.6
 win32-setctime==1.1.0
 xmod==1.8.1
