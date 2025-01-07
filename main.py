@@ -3,6 +3,17 @@ import inquirer
 
 status_exit = False
 while not status_exit:
+    # Home header
+    print("  _ ____  _     _      ")
+    print(" (_)  _ \\| |   (_)_  __")
+    print(" | | | | | |   | \\ \\/ /")
+    print(" | | |_| | |___| |>  < ")
+    print(" |_|____/|_____|_/_/\\_\\")
+    print("                       ")
+    print("Idlix movie, series, and subtitle downloadler.")
+    print("https://github.com/gopelkujo/iDLix")
+    print("")
+    
     idlix_helper = IdlixHelper()
 
     question = [
@@ -24,17 +35,13 @@ while not status_exit:
         url = input("Enter movie URL ( Ex : https://vip.idlixofficialx.net/movie/kung-fu-panda-4-2024/) : ")
         get_video_data = idlix_helper.get_movie_data(url)
         if get_video_data['status']:
-            logger.info("Getting video data | Video ID : " + get_video_data['video_id'] + " | Video Name : " + get_video_data['video_name'])
-
             get_embed_url = idlix_helper.get_embed_url()
             if get_embed_url['status']:
-                logger.info("Getting embed url | Embed URL : " + get_embed_url['embed_url'])
-
                 get_m3u8_url = idlix_helper.get_m3u8_url()
                 if get_m3u8_url['status']:
-                    logger.info("Getting m3u8 url | M3U8 URL : " + get_m3u8_url['m3u8_url'])
                     if get_m3u8_url['is_variant_playlist']:
                         logger.warning("This video has variant playlist")
+                        
                         question = [
                             inquirer.List(
                                 "variant",
@@ -52,9 +59,10 @@ while not status_exit:
                     else:
                         logger.warning("This video has no variant playlist")
 
+                    logger.info("[INFO] Starting downloading " + get_video_data['video_name'] + '...')
                     download_m3u8 = idlix_helper.download_m3u8()
                     if download_m3u8['status']:
-                        logger.success("Downloading {} Success".format(get_video_data['video_name']))
+                        logger.success("[SUCCESS] Movie {} downloaded".format(get_video_data['video_name']))
 
                         download_subtitle = idlix_helper.get_subtitle()
                         if download_subtitle['status']:
@@ -68,7 +76,7 @@ while not status_exit:
             else:
                 logger.error("Error getting embed url")
         else:
-            logger.error("Couldn't find the data")
+            logger.error("Couldn't find the movie")
 
     # 
     # Download episode in series
@@ -77,17 +85,13 @@ while not status_exit:
         url = input("Enter series eipsode URL ( Ex : https://tv7.idlix.asia/episode/squid-game-season-2-episode-2/) : ")
         get_video_data = idlix_helper.get_series_data(url)
         if get_video_data['status']:
-            logger.info("Getting video data | Video ID : " + get_video_data['video_id'] + " | Video Name : " + get_video_data['video_name'])
-
             get_embed_url = idlix_helper.get_embed_url()
             if get_embed_url['status']:
-                logger.info("Getting embed url | Embed URL : " + get_embed_url['embed_url'])
-
                 get_m3u8_url = idlix_helper.get_m3u8_url()
                 if get_m3u8_url['status']:
-                    logger.info("Getting m3u8 url | M3U8 URL : " + get_m3u8_url['m3u8_url'])
                     if get_m3u8_url['is_variant_playlist']:
                         logger.warning("This video has variant playlist")
+                        
                         question = [
                             inquirer.List(
                                 "variant",
@@ -97,6 +101,7 @@ while not status_exit:
                             )
                         ]
                         answer = inquirer.prompt(question)
+                        
                         for variant in get_m3u8_url['variant_playlist']:
                             if variant['id'] == answer['variant'].split(".")[0]:
                                 logger.success("Selected variant : " + variant['resolution'])
@@ -105,9 +110,10 @@ while not status_exit:
                     else:
                         logger.warning("This video has no variant playlist")
 
+                    logger.info("[INFO] Starting downloading " + get_video_data['video_name'] + '...')
                     download_m3u8 = idlix_helper.download_m3u8()
                     if download_m3u8['status']:
-                        logger.success("Downloading {} Success".format(get_video_data['video_name']))
+                        logger.success("[SUCCESS] Series episode {} downloaded".format(get_video_data['video_name']))
                         
                         download_subtitle = idlix_helper.get_subtitle()
                         if download_subtitle['status']:
@@ -141,11 +147,14 @@ while not status_exit:
                     else:
                         logger.error("Error download subtitle: " + download_subtitle['message'])
                 else:
-                    logger.error('[ERROR] Failed get get_m3u8_url')
+                    logger.error('[ERROR] Failed get get_m3u8_url: ' + get_m3u8_url['message'])
             else:
-                logger.error('[ERROR] Failed embeded url.')
+                logger.error('[ERROR] Failed embeded url: ' + get_embed_url['message'])
         else:
-            logger.error('[ERROR] Error getting video data')
+            logger.error('[FAILED] Couldn\'t find the subtitle')
     else:
         logger.info("Exiting")
         status_exit = True
+    
+    if (status_exit == False):
+        input("\n\nPress Enter to continue...\n\n")
