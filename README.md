@@ -97,12 +97,12 @@ If you only need indonesian subtitle of the movie/series episode, this is for yo
 
 ## Screenshots
 
-<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/f41c80a0-c055-42f0-a631-4f719202fc4a" width="266" />
-<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/6681a899-4654-4dea-a531-ae9dcc40746f" width="266" />
-<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/6b9572a3-60e3-4af1-84a4-e3fe495c6948" width="266" />
-<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/a5289b7c-aa23-4918-926c-c5021e37bb3a" width="266" />
-<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/601e26be-71cc-4072-9c11-6f7e9f69fb9e" width="266" />
-<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/08ced0cc-e54f-42fb-b8e3-f5ad33673a2d" width="266" />
+[<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/f41c80a0-c055-42f0-a631-4f719202fc4a" width="266" />](https://github.com/user-attachments/assets/f41c80a0-c055-42f0-a631-4f719202fc4a)
+[<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/6681a899-4654-4dea-a531-ae9dcc40746f" width="266" />](https://github.com/user-attachments/assets/6681a899-4654-4dea-a531-ae9dcc40746f)
+[<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/6b9572a3-60e3-4af1-84a4-e3fe495c6948" width="266" />](https://github.com/user-attachments/assets/6b9572a3-60e3-4af1-84a4-e3fe495c6948)
+[<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/a5289b7c-aa23-4918-926c-c5021e37bb3a" width="266" />](https://github.com/user-attachments/assets/a5289b7c-aa23-4918-926c-c5021e37bb3a)
+[<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/601e26be-71cc-4072-9c11-6f7e9f69fb9e" width="266" />](https://github.com/user-attachments/assets/601e26be-71cc-4072-9c11-6f7e9f69fb9e)
+[<img alt="iDLix CLI" src="https://github.com/user-attachments/assets/08ced0cc-e54f-42fb-b8e3-f5ad33673a2d" width="266" />](https://github.com/user-attachments/assets/08ced0cc-e54f-42fb-b8e3-f5ad33673a2d)
 
 ## Future Feature Plan
 
