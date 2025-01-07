@@ -1,8 +1,10 @@
 """
-Helper Class for IDLIX Downloader & IDLIX Player CLI
+Helper Class for iDLix
+Originate from IDLIX Downloader & IDLIX Player CLI (https://github.com/sandrocods/IdlixDownloader)
 
-Update  :   27-11-2024
-Author  :   sandroputraa
+Author      : sandroputraa - https://github.com/sandrocods
+Co-Author   : gopelkujo - https://github.com/gopelkujo
+Update      : 07-01-2025
 """
 import os
 import random
@@ -20,12 +22,13 @@ from urllib.parse import unquote, urlparse
 from vtt_to_srt.vtt_to_srt import ConvertFile
 from curl_cffi import requests as cffi_requests
 from src.CryptoJsAesHelper import CryptoJsAes, dec
+from pathlib import Path
 
 
 class IdlixHelper:
-    BASE_WEB_URL = "https://tv6.idlix.asia/"
+    BASE_WEB_URL = "https://tv7.idlix.asia/"
     BASE_STATIC_HEADERS = {
-        "Host": "tv6.idlix.asia",
+        "Host": "tv7.idlix.asia",
         "Connection": "keep-alive",
         "sec-ch-ua": "Not)A;Brand;v=99, Google Chrome;v=127, Chromium;v=127",
         "sec-ch-ua-mobile": "?0",
@@ -112,41 +115,7 @@ class IdlixHelper:
         except Exception as e:
             print(f'Error: {e}')
 
-    def get_home(self):
-        try:
-            request = self.request.get(
-                url=self.BASE_WEB_URL
-            )
-            if request.status_code == 200:
-                bs = BeautifulSoup(request.text, 'html.parser')
-                tmp_featured = []
-                for featured in bs.find('div', {'class': 'items featured'}).find_all('article'):
-
-                    if featured.find('a').get('href').split('/')[3] == 'tvseries':
-                        continue
-
-                    tmp_featured.append({
-                        "url": featured.find('a').get('href'),
-                        "title": featured.find('h3').text,
-                        "year": featured.find('span').text,
-                        "type": featured.find('a').get('href').split('/')[3]
-                    })
-                return {
-                    'status': True,
-                    'featured_movie': tmp_featured
-                }
-            else:
-                return {
-                    'status': False,
-                    'message': 'Failed to get home page'
-                }
-        except Exception as error_get_home:
-            return {
-                'status': False,
-                'message': str(error_get_home)
-            }
-
-    def get_video_data(self, url):
+    def get_movie_data(self, url):
         if not url:
             return {
                 'status': False,
@@ -161,6 +130,38 @@ class IdlixHelper:
                 self.video_id = bs.find('meta', {'id': 'dooplay-ajax-counter'}).get('data-postid')
                 self.video_name = unquote(bs.find('meta', {'itemprop': 'name'}).get('content'))
                 self.poster = bs.find('img', {'itemprop': 'image'}).get('src')
+                return {
+                    'status': True,
+                    'video_id': self.video_id,
+                    'video_name': self.video_name,
+                    'poster': self.poster
+                }
+            else:
+                return {
+                    'status': False,
+                    'message': 'Failed to get video data'
+                }
+        else:
+            return {
+                'status': False,
+                'message': 'Invalid URL'
+            }
+
+    def get_series_data(self, url):
+        if not url:
+            return {
+                'status': False,
+                'message': 'URL is required'
+            }
+        if url.startswith(self.BASE_WEB_URL):
+            request = self.request.get(
+                url=url,
+            )
+            if request.status_code == 200:
+                bs = BeautifulSoup(request.text, 'html.parser')
+                self.video_id = bs.find('meta', {'id': 'dooplay-ajax-counter'}).get('data-postid')
+                self.video_name = unquote(bs.find('h1', {'class': 'epih1'}).getText())
+                self.poster = 'no-poster'
                 return {
                     'status': True,
                     'video_id': self.video_id,
@@ -288,7 +289,15 @@ class IdlixHelper:
                 }
             if not os.path.exists(os.getcwd() + '/tmp/'):
                 os.mkdir(os.getcwd() + '/tmp/')
-
+                
+            if(Path(os.getcwd() + '/downloaded').exist):
+                logger.info('[INFO]: Folder \'' + os.getcwd() + '/downloaded' + '\' exist!')
+            else:
+                return {
+                    'status': False,
+                    'message': 'downloaded file '
+                }
+            
             m3u8_To_MP4.multithread_download(
                 m3u8_uri=self.m3u8_url,
                 max_num_workers=10,
@@ -300,7 +309,7 @@ class IdlixHelper:
             return {
                 'status': True,
                 'message': 'Download success',
-                'path': os.getcwd() + '/' + self.video_name + '.mp4'
+                'path': os.getcwd() + '/downloaded/' + self.video_name + '.mp4'
             }
         except Exception as error_download_m3u8:
             return {
@@ -334,15 +343,21 @@ class IdlixHelper:
 
             )
             regex_subtitle = re.search(r"var playerjsSubtitle = \"(.*)\";", request.text)
+            
             if regex_subtitle:
+
                 if download:
+
                     subtitle_request = requests.get(
                         url="https://" + regex_subtitle.group(1).split("https://")[1],
                     )
                     with open(self.video_name.replace(" ", "_") + '.vtt', 'wb') as subtitle_file:
                         subtitle_file.write(subtitle_request.content)
                     self.convert_vtt_to_srt(self.video_name.replace(" ", "_") + '.vtt')
+                    
+                    os.rename(self.video_name.replace(" ", "_") + '.srt', self.video_name.replace(" ", "_") + '.srt')
                     self.is_subtitle = True
+                    logger.success('[SUCCESS] Subtitle \''+ self.video_name.replace(" ", "_") + '\' downloaded.')
                     return {
                         'status': True,
                         'subtitle': self.video_name.replace(" ", "_") + '.srt',
