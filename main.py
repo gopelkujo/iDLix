@@ -1,7 +1,5 @@
 from src.idlixHelper import IdlixHelper, logger
-from prettytable import PrettyTable
 import inquirer
-import os
 
 status_exit = False
 while not status_exit:

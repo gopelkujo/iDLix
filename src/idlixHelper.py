@@ -58,63 +58,7 @@ class IdlixHelper:
             debug=False
         )
 
-        # FFMPEG
-        if os.name == 'nt':
-            for _ in os.environ.get('path').split(';'):
-                if 'ffmpeg' in _:
-                    logger.info(f'FFMPEG Found: {_}')
-                    break
-            else:
-                if not os.path.exists('ffmpeg-release-essentials.zip'):
-                    self.download_ffmpeg()
-                logger.warning('FFMPEG not set in PATH, Trying set PATH')
-                try:
-                    with zipfile.ZipFile('ffmpeg-release-essentials.zip', 'r') as zip_ref:
-                        zip_ref.extractall(
-                            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ffmpeg')
-                        )
-                    logger.success('Success Extracting ffmpeg')
-                    path = ""
-                    for _ in os.listdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ffmpeg')):
-                        if 'ffmpeg' in _:
-                            logger.info(f'Found: {os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", _, "bin")}')
-                            path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", _, "bin")
-                            break
-                    else:
-                        logger.error('FFMPEG not found, please install ffmpeg first before running this script')
-                    subprocess.call(["setx", "PATH", "%PATH%;" + path])
-                    logger.success('FFMPEG PATH set successfully, Please restart the program')
-                    exit()
-                except Exception as e:
-                    print(f'Error: {e}')
-        else:
-            if not shutil.which('ffmpeg'):
-                logger.error('FFMPEG not found, please install ffmpeg first before running this script')
-                exit()
-
-    @staticmethod
-    def download_ffmpeg():
-        try:
-            logger.info('Downloading ffmpeg')
-            content = requests.get(
-                url='https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip',
-                stream=True
-            )
-            with open("ffmpeg-release-essentials.zip", mode="wb") as file:
-                for chunk in content.iter_content(chunk_size=1024):
-                    print(
-                        '\rDownloading: {} MB of {} MB'.format(
-                            round(os.path.getsize('ffmpeg-release-essentials.zip') / 1024 / 1024, 2),
-                            round(int(content.headers.get('Content-Length', 0)) / 1024 / 1024, 2)
-                        ),
-                        end=''
-                    )
-                    file.write(chunk)
-            print()
-            logger.success('Downloaded ffmpeg')
-        except Exception as e:
-            print(f'Error: {e}')
-
+    # TODO: Refactor get_movie_data() and get_series_data()
     def get_movie_data(self, url):
         if not url:
             return {
@@ -378,53 +322,6 @@ class IdlixHelper:
             return {
                 'status': False,
                 'message': str(error_get_subtitle)
-            }
-
-    def play_m3u8(self):
-        try:
-            if not self.m3u8_url:
-                return {
-                    'status': False,
-                    'message': 'M3U8 URL is required'
-                }
-
-            if self.is_subtitle:
-                subprocess.call([
-                    "ffplay",
-                    "-i",
-                    self.m3u8_url,
-                    "-window_title",
-                    self.video_name,
-                    "-vf",
-                    "subtitles=" + self.video_name.replace(" ", "_") + ".srt",
-                    "-hide_banner",
-                    "-loglevel",
-                    "panic"
-                ])
-
-            subprocess.call([
-                "ffplay",
-                "-i",
-                self.m3u8_url,
-                "-window_title",
-                self.video_name,
-                "-hide_banner",
-                "-loglevel",
-                "panic"
-            ])
-
-            if self.is_subtitle and os.path.exists(self.video_name.replace(" ", "_") + '.srt'):
-                os.remove(self.video_name.replace(" ", "_") + '.srt')
-                os.remove(self.video_name.replace(" ", "_") + '.vtt')
-
-            return {
-                'status': True,
-                'message': 'Playing m3u8'
-            }
-        except Exception as error_play_m3u8:
-            return {
-                'status': False,
-                'message': str(error_play_m3u8)
             }
 
     @staticmethod
