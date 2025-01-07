@@ -32,7 +32,7 @@ while not status_exit:
     answer = inquirer.prompt(question)
 
     if answer['action'] == "Download Movie by URL":
-        url = input("Enter movie URL ( Ex : https://vip.idlixofficialx.net/movie/kung-fu-panda-4-2024/) : ")
+        url = input("Enter movie URL (Ex: " + idlix_helper.BASE_WEB_URL + "movie/kung-fu-panda-4-2024/): \n")
         get_video_data = idlix_helper.get_movie_data(url)
         if get_video_data['status']:
             get_embed_url = idlix_helper.get_embed_url()
@@ -82,7 +82,7 @@ while not status_exit:
     # Download episode in series
     # 
     elif answer['action'] == "Download Episode Series by URL":
-        url = input("Enter series eipsode URL ( Ex : https://tv7.idlix.asia/episode/squid-game-season-2-episode-2/) : ")
+        url = input("Enter series episode URL (Ex: " + idlix_helper.BASE_WEB_URL + "episode/squid-game-season-2-episode-2/): \n")
         get_video_data = idlix_helper.get_series_data(url)
         if get_video_data['status']:
             get_embed_url = idlix_helper.get_embed_url()
@@ -129,8 +129,7 @@ while not status_exit:
         else:
             logger.error("Couldn't find the series")
     elif answer['action'] == "Download subtitle only by URL":
-        url = input("Enter movie/episode URL ( Ex : https://tv7.idlix.asia/episode/squid-game-season-2-episode-2/): \n")
-        get_video_data = ''
+        url = input("Enter movie/episode URL (Ex: " + idlix_helper.BASE_WEB_URL + "episode/squid-game-season-2-episode-2/): \n")
         if url.startswith(idlix_helper.BASE_WEB_URL + 'movie/'):
             get_video_data = idlix_helper.get_movie_data(url)
         else:
@@ -157,4 +156,5 @@ while not status_exit:
         status_exit = True
     
     if (status_exit == False):
-        input("\n\nPress Enter to continue...\n\n")
+        input("\n\nPress Enter to continue...")
+        input("\n\n")
