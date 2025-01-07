@@ -12,9 +12,7 @@ import re
 import json
 import m3u8
 import shutil
-import zipfile
 import requests
-import subprocess
 import m3u8_To_MP4
 from loguru import logger
 from bs4 import BeautifulSoup
