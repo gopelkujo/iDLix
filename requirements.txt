@@ -27,7 +27,6 @@ m3u8-To-MP4==0.1.11
 MarkupSafe==2.1.2
 multivolumefile==0.2.3
 pfzy==0.3.4
-prettytable==3.11.0
 prompt-toolkit==3.0.30
 psutil==5.9.2
 py7zr==0.20.0
