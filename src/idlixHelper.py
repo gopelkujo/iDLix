@@ -231,27 +231,22 @@ class IdlixHelper:
                 }
             if not os.path.exists(os.getcwd() + '/tmp/'):
                 os.mkdir(os.getcwd() + '/tmp/')
-                
-            if(Path(os.getcwd() + '/downloaded').exist):
-                logger.info('[INFO]: Folder \'' + os.getcwd() + '/downloaded' + '\' exist!')
-            else:
-                return {
-                    'status': False,
-                    'message': 'downloaded file '
-                }
+            
+            if not os.path.exists(os.getcwd() + '/downloads/'):
+                os.mkdir(os.getcwd() + '/downloads/')
             
             m3u8_To_MP4.multithread_download(
                 m3u8_uri=self.m3u8_url,
                 max_num_workers=10,
                 mp4_file_name=self.video_name,
-                mp4_file_dir=os.getcwd() + '/',
+                mp4_file_dir=os.getcwd() + '/downloads/',
                 tmpdir=os.getcwd() + '/tmp/'
             )
             shutil.rmtree(os.getcwd() + '/tmp/', ignore_errors=True)
             return {
                 'status': True,
                 'message': 'Download success',
-                'path': os.getcwd() + '/downloaded/' + self.video_name + '.mp4'
+                'path': os.getcwd() + '/downloads/' + self.video_name + '.mp4'
             }
         except Exception as error_download_m3u8:
             return {
