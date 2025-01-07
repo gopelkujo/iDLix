@@ -10,7 +10,7 @@ while not status_exit:
     print(" | | |_| | |___| |>  < ")
     print(" |_|____/|_____|_/_/\\_\\")
     print("                       ")
-    print("Idlix movie, series, and subtitle downloadler.")
+    print("Idlix movie, series, and subtitle downloader")
     print("https://github.com/gopelkujo/iDLix")
     print("")
     
