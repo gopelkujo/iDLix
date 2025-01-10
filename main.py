@@ -1,9 +1,15 @@
+import os
 from src.idlixHelper import IdlixHelper, logger
 import inquirer
 
 status_exit = False
 while not status_exit:
+    if os.name == 'nt':
+        os.system("cls")
+    else:
+        os.system("clear")
     # Home header
+    print("\n")
     print("  _ ____  _     _      ")
     print(" (_)  _ \\| |   (_)_  __")
     print(" | | | | | |   | \\ \\/ /")
@@ -157,4 +163,3 @@ while not status_exit:
     
     if (status_exit == False):
         input("\n\nPress Enter to continue...")
-        input("\n\n")
