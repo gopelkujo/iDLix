@@ -49,6 +49,9 @@ git pull
 
 ## Usage
 
+> ### Note
+> Current idlix prefix: `tv6`
+
 ##### 1. Run program
 
 Inside **iDLix** folder, run in terminal:
