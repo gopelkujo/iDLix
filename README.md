@@ -3,7 +3,7 @@
 Simple CLI (Command-Line Interface) for idlix movies, series, and subtitles downloader.
 
 This script originally forked from [sandrocods/IdlixDownload](https://github.com/sandrocods/IdlixDownloader).
-We only remove play video feature, since we prefer to play the video on my own player. 
+We only remove play video feature, since we prefer to play the video on my our player. 
 And this remove some package and process installation.
 
 ![Screenshot 2025-01-07 at 13 53 38](https://github.com/user-attachments/assets/fadd457a-cd9b-4870-8f55-f813af5ee717)
