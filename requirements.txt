@@ -45,7 +45,7 @@ six==1.16.0
 soupsieve==2.3.2.post1
 texttable==1.6.4
 tqdm==4.66.3
-urllib3==1.26.11
+urllib3==1.26.19
 vtt_to_srt3==0.2.0.3
 wcwidth==0.2.5
 Werkzeug==3.0.6
