@@ -29,7 +29,7 @@ multivolumefile==0.2.3
 pfzy==0.3.4
 prompt-toolkit==3.0.30
 psutil==5.9.2
-py7zr==0.20.0
+py7zr==0.20.2
 pybcj==1.0.1
 pycparser==2.22
 pycryptodome==3.15.0
