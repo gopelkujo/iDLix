@@ -13,7 +13,7 @@ EasyProcess==1.1
 editor==1.6.6
 entrypoint2==1.1
 Flask==2.2.3
-idna==3.3
+idna==3.7
 inflate64==0.3.0
 inquirer==3.4.0
 inquirerpy==0.3.4
