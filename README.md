@@ -50,7 +50,7 @@ git pull
 ## Usage
 
 > ### Note
-> Current idlix prefix: `tv6`
+> Current idlix prefix: `tv7`
 
 ##### 1. Run program
 
